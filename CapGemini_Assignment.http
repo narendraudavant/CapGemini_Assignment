@@ -1,6 +1,6 @@
 @CapGemini_Assignment_HostAddress = http://localhost:5092
 
-GET {{CapGemini_Assignment_HostAddress}}/weatherforecast/
+GET {{CapGemini_Assignment_HostAddress}}/PremiumCalculator
 Accept: application/json
 
 ###

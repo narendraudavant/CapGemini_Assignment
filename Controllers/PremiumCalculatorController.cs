@@ -6,36 +6,16 @@ namespace CapGemini_Assignment.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class PremiumCalculatorController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+     
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        //public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-        //[HttpGet]
-        //public IEnumerable<PremiumRequest> Get()
-        //{
-        //    return Enumerable.Range(1, 5).Select(index => new PremiumRequest
-        //    {
-        //        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        //        TemperatureC = Random.Shared.Next(-20, 55),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
+        private readonly ILogger<PremiumCalculatorController> _logger;
 
         private readonly IOccupationService _occupationService;
         private readonly IPremiumCalculationService _calcService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,IOccupationService occupationService, IPremiumCalculationService calcService)
+        public PremiumCalculatorController(ILogger<PremiumCalculatorController> logger,IOccupationService occupationService, IPremiumCalculationService calcService)
         {
             _logger = logger;
             _occupationService = occupationService;

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Premium Calculator</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 250px; padding: 6px; }
+        .result { margin-top: 20px; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>Monthly Premium Calculator</h2>
+
+<label>Name</label>
+<input type="text" id="name" required>
+
+<label>Age Next Birthday</label>
+<input type="number" id="age" required>
+
+<label>Date of Birth (MM/YYYY)</label>
+<input type="text" id="dob" placeholder="MM/YYYY" required>
+
+<label>Death Sum Insured</label>
+<input type="number" id="deathSumInsured" required>
+
+<label>Occupation</label>
+<select id="usualOccupation" required>
+    <option value="">-- Select --</option>
+    <option value="Professional">Professional</option>
+    <option value="White Collar">White Collar</option>
+    <option value="Light Manual">Light Manual</option>
+    <option value="Heavy Manual">Heavy Manual</option>
+</select>
+
+<div class="result" id="premiumResult">Monthly Premium: ₹0</div>
+
+<script>
+    const occupation = document.getElementById("usualOccupation");
+
+    occupation.addEventListener("change", () => {
+        const data = {
+            name: document.getElementById("name").value,
+            ageNextBirthday: parseInt(document.getElementById("age").value),
+            dateOfBirth: document.getElementById("dob").value,
+            usualOccupation: usualOccupation.value,
+            deathSumInsured: parseFloat(document.getElementById("deathSumInsured").value)
+        };
+
+        // Validate mandatory fields
+        if (!data.name || !data.ageNextBirthday || !data.dateOfBirth || !data.usualOccupation || !data.deathSumInsured) {
+            alert("All fields are mandatory!");
+            return;
+        }
+
+        fetch("http://localhost:5092/WeatherForecast/calculate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById("premiumResult").innerText =
+                "Monthly Premium: ₹" + result.monthlyPremium;
+        })
+        .catch(err => console.error(err));
+    });
+</script>
+
+</body>
+</html>
