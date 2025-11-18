@@ -25,26 +25,36 @@ namespace CapGemini_Assignment.Controllers
         [HttpPost("calculate")]
         public IActionResult Calculate([FromBody] PremiumRequest request)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var rating = _occupationService.GetRatingForOccupation(request.UsualOccupation);
-            var factor = _occupationService.GetFactorForRating(rating);
-
-            var premium = _calcService.CalculateMonthlyPremium(request.DeathSumInsured, factor, request.AgeNextBirthday);
-
-            var response = new
+            try
             {
-                name = request.Name,
-                ageNextBirthday = request.AgeNextBirthday,
-                dateOfBirth = request.DateOfBirth,
-                occupation = request.UsualOccupation,
-                occupationRating = rating,
-                occupationFactor = factor,
-                deathSumInsured = request.DeathSumInsured,
-                monthlyPremium = premium
-            };
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            return Ok(response);
+                var rating = _occupationService.GetRatingForOccupation(request.UsualOccupation);
+                var factor = _occupationService.GetFactorForRating(rating);
+
+                var premium = _calcService.CalculateMonthlyPremium(request.DeathSumInsured, factor, request.AgeNextBirthday);
+
+                var response = new
+                {
+                    name = request.Name,
+                    ageNextBirthday = request.AgeNextBirthday,
+                    dateOfBirth = request.DateOfBirth,
+                    occupation = request.UsualOccupation,
+                    occupationRating = rating,
+                    occupationFactor = factor,
+                    deathSumInsured = request.DeathSumInsured,
+                    monthlyPremium = premium
+                };
+                return Ok(response);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex.StackTrace);
+            }
+            return BadRequest(ModelState);
         }
     }
 }
